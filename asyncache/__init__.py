@@ -4,7 +4,7 @@ asyncio.
 """
 import asyncio
 import functools
-from contextlib import AbstractContextManager
+from contextlib import AbstractAsyncContextManager
 from typing import Any, Callable, MutableMapping, Optional, Protocol, TypeVar
 
 from cachetools import keys
@@ -50,7 +50,7 @@ def cached(
     # ignoring the mypy error to be consistent with the type used
     # in https://github.com/python/typeshed/tree/master/stubs/cachetools
     key: Callable[..., _KT] = keys.hashkey,  # type:ignore
-    lock: Optional["AbstractContextManager[Any]"] = None,
+    lock: Optional["AbstractAsyncContextManager[Any]"] = None,
 ) -> IdentityFunction:
     """
     Decorator to wrap a function or a coroutine with a memoizing callable
@@ -118,7 +118,7 @@ def cachedmethod(
     # ignoring the mypy error to be consistent with the type used
     # in https://github.com/python/typeshed/tree/master/stubs/cachetools
     key: Callable[..., _KT] = keys.hashkey,  # type:ignore
-    lock: Optional[Callable[[Any], "AbstractContextManager[Any]"]] = None,
+    lock: Optional[Callable[[Any], "AbstractAsyncContextManager[Any]"]] = None,
 ) -> IdentityFunction:
     """Decorator to wrap a class or instance method with a memoizing
     callable that saves results in a cache. This works similarly to
